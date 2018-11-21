@@ -70,25 +70,25 @@ redirect_from: /install/compile/
 
     Finally, place the `bin/kong` script in your `$PATH`.
 
-1. **Add `kong.conf`**
+1. **Configure Kong**
 
-    **Note**: This step is **required** if you are using Cassandra; it is **optional** for Postgres users.
-
+    Kong supports both [PostgreSQL {{site.data.kong_latest.dependencies.postgres}}](http://www.postgresql.org/) and [Cassandra {{site.data.kong_latest.dependencies.cassandra}}](http://cassandra.apache.org/) as its datastore.
     By default, Kong is configured to communicate with a local Postgres instance.
-    If you are using Cassandra, or need to modify any settings, download the [`kong.conf.default`](https://raw.githubusercontent.com/Kong/kong/master/kong.conf.default) file and [adjust][configuration] it as necessary.
-    Then, as root, add it to `/etc`:
+    If you are using Cassandra, or need to modify any other settings, you can configure Kong with either a `kong.conf` file, or by using environment variables.
+
+    **To configure Kong with environment variables**, refer to the [Configuration Reference](/latest/configuration/#environment-variables).
+
+    **To add a `kong.conf` file**, download the [`kong.conf.default`](https://raw.githubusercontent.com/Kong/kong/master/kong.conf.default) file and [adjust][configuration] it as necessary.
+    Then, add it to `/usr/local/etc/kong`:
 
     ```bash
-    $ sudo mkdir -p /etc/kong
-    $ sudo cp kong.conf.default /etc/kong/kong.conf
+    $ mkdir -p /usr/local/etc/kong
+    $ cp kong.conf.default /usr/local/etc/kong/kong.conf
     ```
 
-1. **Prepare your database**
+    **Note**: When you start Kong, you'll need to use the `-c` [command-line option](/latest/cli/#kong-start) to specify the config file location.
 
-    [Configure][configuration] Kong so it can connect to your database. Kong
-    supports both [PostgreSQL {{site.data.kong_latest.dependencies.postgres}}](http://www.postgresql.org/)
-    and [Cassandra {{site.data.kong_latest.dependencies.cassandra}}](http://cassandra.apache.org/)
-    as its datastore.
+1. **Prepare your database**
 
     If you are using Postgres, provision a database and a user before starting Kong:
 
